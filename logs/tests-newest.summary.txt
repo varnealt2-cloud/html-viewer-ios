@@ -1,0 +1,23 @@
+866:Test Case '-[HTMLViewerTests.ViewerTests testOpenedFileBecomesATabAndIsRestored]' passed (11.984 seconds).
+870:2026-11-10 12:34:29.234325+0000 HTMLViewer[8698:32676] [ProcessSuspension] 0x11c168780 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'WebProcess NearSuspended Assertion' for process with PID=9307, error: (null)
+873:2026-11-10 12:34:29.257595+0000 HTMLViewer[8698:32676] [ProcessSuspension] 0x11c168840 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'XPCConnectionTerminationWatchdog' for process with PID=9412, error: (null)
+875:2026-11-10 12:34:29.258256+0000 HTMLViewer[8698:32676] [ProcessSuspension] 0x11c168900 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'WebProcess NearSuspended Assertion' for process with PID=9412, error: (null)
+878:2026-11-10 12:34:29.319335+0000 HTMLViewer[8698:32676] [ProcessSuspension] 0x11c1689c0 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'XPCConnectionTerminationWatchdog' for process with PID=9310, error: (null)
+881:Test Case '-[HTMLViewerTests.ViewerTests testPageLoadsStylesScriptsFetchImagesAndVideo]' passed (6.790 seconds).
+883:Test Case '-[HTMLViewerTests.ViewerTests testRangeParser]' passed (0.003 seconds).
+887:2026-11-10 12:34:36.041554+0000 HTMLViewer[8698:32697] [ProcessSuspension] 0x11c168600 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'WebProcess NearSuspended Assertion' for process with PID=9616, error: (null)
+888:Test Case '-[HTMLViewerTests.ViewerTests testServerServesFilesRangesAndListings]' passed (0.224 seconds).
+890:Test Case '-[HTMLViewerTests.ViewerTests testStateRoundTrips]' passed (0.045 seconds).
+892:Test Case '-[HTMLViewerTests.ViewerTests testTypedAddresses]' passed (0.002 seconds).
+894:	 Executed 6 tests, with 0 failures (0 unexpected) in 19.048 (19.055) seconds
+896:	 Executed 6 tests, with 0 failures (0 unexpected) in 19.048 (19.055) seconds
+898:	 Executed 6 tests, with 0 failures (0 unexpected) in 19.048 (19.057) seconds
+900:objc[9744]: Class UIAccessibilityLoaderWebShared is implemented in both /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebCore.axbundle/WebCore (0x1073bc310) and /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebKit.axbundle/WebKit (0x10a2c0398). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+931:Test Case '-[HTMLViewerUITests.ViewerUITests testExamplePageOpensAndRuns]' passed (32.891 seconds).
+1522:XCTExpectFailure: matcher accepted Assertion Failure at ViewerUITests.swift:83: XCTAssertTrue failed - The picked file opens in a tab
+1523:ViewerUITests.swift:83: Expected failure in -[HTMLViewerUITests.ViewerUITests testPickingAFileInTheFilesPicker]: XCTAssertTrue failed - The picked file opens in a tabReason: (The simulator's Files picker could not be driven to hand over the file)
+1525:Test Case '-[HTMLViewerUITests.ViewerUITests testPickingAFileInTheFilesPicker]' passed (196.524 seconds).
+1611:Test Case '-[HTMLViewerUITests.ViewerUITests testSampleTabsAndRestore]' passed (30.895 seconds).
+1613:	 Executed 3 tests, with 0 failures (0 unexpected) in 260.310 (260.316) seconds
+1615:	 Executed 3 tests, with 0 failures (0 unexpected) in 260.310 (260.317) seconds
+1617:	 Executed 3 tests, with 0 failures (0 unexpected) in 260.310 (260.319) seconds

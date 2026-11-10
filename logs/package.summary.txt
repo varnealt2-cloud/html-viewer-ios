@@ -1,0 +1,1 @@
+1:Created HTML-Viewer.ipa (unsigned): device families [1, 2], app.htmlviewer.ios 1.1.0 (3), min iOS 15.0, executable 657928 bytes

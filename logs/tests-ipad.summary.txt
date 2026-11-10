@@ -1,0 +1,21 @@
+123:Test Case '-[HTMLViewerTests.ViewerTests testOpenedFileBecomesATabAndIsRestored]' passed (16.486 seconds).
+126:2026-11-10 12:43:19.197662+0000 HTMLViewer[21968:71429] [ProcessSuspension] 0x11b150600 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'XPCConnectionTerminationWatchdog' for process with PID=22299, error: (null)
+128:2026-11-10 12:43:19.208617+0000 HTMLViewer[21968:71429] [ProcessSuspension] 0x11b1506c0 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'WebProcess NearSuspended Assertion' for process with PID=22299, error: (null)
+130:2026-11-10 12:43:19.922365+0000 HTMLViewer[21968:71429] [ProcessSuspension] 0x11b150780 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'XPCConnectionTerminationWatchdog' for process with PID=22370, error: (null)
+133:2026-11-10 12:43:19.937937+0000 HTMLViewer[21968:71429] [ProcessSuspension] 0x11b150540 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'XPCConnectionTerminationWatchdog' for process with PID=22301, error: (null)
+140:Test Case '-[HTMLViewerTests.ViewerTests testPageLoadsStylesScriptsFetchImagesAndVideo]' passed (37.134 seconds).
+142:Test Case '-[HTMLViewerTests.ViewerTests testRangeParser]' passed (0.004 seconds).
+145:2026-11-10 12:43:56.339276+0000 HTMLViewer[21968:71227] [ProcessSuspension] 0x11b150600 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'WebProcess NearSuspended Assertion' for process with PID=22702, error: (null)
+146:Test Case '-[HTMLViewerTests.ViewerTests testServerServesFilesRangesAndListings]' passed (0.266 seconds).
+148:Test Case '-[HTMLViewerTests.ViewerTests testStateRoundTrips]' passed (0.005 seconds).
+150:Test Case '-[HTMLViewerTests.ViewerTests testTypedAddresses]' passed (0.001 seconds).
+152:	 Executed 6 tests, with 0 failures (0 unexpected) in 53.895 (53.901) seconds
+154:	 Executed 6 tests, with 0 failures (0 unexpected) in 53.895 (53.902) seconds
+156:	 Executed 6 tests, with 0 failures (0 unexpected) in 53.895 (53.908) seconds
+159:objc[22757]: Class UIAccessibilityLoaderWebShared is implemented in both /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebCore.axbundle/WebCore (0x108f88310) and /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebKit.axbundle/WebKit (0x108eec398). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+191:Test Case '-[HTMLViewerUITests.ViewerUITests testExamplePageOpensAndRuns]' passed (17.357 seconds).
+197:Test Case '-[HTMLViewerUITests.ViewerUITests testPickingAFileInTheFilesPicker]' skipped (1.620 seconds).
+286:Test Case '-[HTMLViewerUITests.ViewerUITests testSampleTabsAndRestore]' passed (56.749 seconds).
+288:	 Executed 3 tests, with 1 test skipped and 0 failures (0 unexpected) in 75.726 (75.729) seconds
+290:	 Executed 3 tests, with 1 test skipped and 0 failures (0 unexpected) in 75.726 (75.730) seconds
+292:	 Executed 3 tests, with 1 test skipped and 0 failures (0 unexpected) in 75.726 (75.731) seconds
