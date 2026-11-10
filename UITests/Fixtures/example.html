@@ -38,8 +38,7 @@
   document.getElementById("form").addEventListener("submit", event => {
     event.preventDefault();
     const input = document.getElementById("text"), value = input.value.trim();
-    if (!value) return;
-    notes.push(value); input.value = "";
+    notes.push(value || "Note " + (notes.length + 1)); input.value = "";
     try { localStorage.setItem(KEY, JSON.stringify(notes)); } catch (e) {}
     render();
   });

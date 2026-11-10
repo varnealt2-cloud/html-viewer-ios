@@ -32,13 +32,11 @@ final class ViewerUITests: XCTestCase {
         XCTAssertTrue(loaded, "The example page shows its heading")
         XCTAssertFalse(app.otherElements["failure"].exists, "No load failure is shown")
         XCTAssertTrue(app.buttons["addressPill"].label.contains("notes.html"), "The tab is on the opened file: \(app.buttons["addressPill"].label)")
-        // The page's own script and storage work: add a note and see it listed.
-        let field = app.webViews.textFields.firstMatch
-        if field.waitForExistence(timeout: 5) {
-            field.tap(); field.typeText("milk")
-            app.webViews.buttons["Add"].tap()
-            XCTAssertTrue(app.webViews.staticTexts["milk"].waitForExistence(timeout: 10), "The page's script ran and saved the note")
-        }
+        // The page's own script and storage work: its Add button creates a note and lists it.
+        app.webViews.buttons["Add"].tap()
+        let note = app.webViews.staticTexts.matching(NSPredicate(format: "label BEGINSWITH 'Note '")).firstMatch
+        XCTAssertTrue(note.waitForExistence(timeout: 15), "The page's script ran and saved a note")
+    }
     }
 
     /// The same file chosen by hand in the system Files picker.
