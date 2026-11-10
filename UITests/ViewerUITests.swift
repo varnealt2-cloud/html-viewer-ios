@@ -37,7 +37,6 @@ final class ViewerUITests: XCTestCase {
         let note = app.webViews.staticTexts.matching(NSPredicate(format: "label BEGINSWITH 'Note '")).firstMatch
         XCTAssertTrue(note.waitForExistence(timeout: 15), "The page's script ran and saved a note")
     }
-    }
 
     /// The same file chosen by hand in the system Files picker.
     func testPickingAFileInTheFilesPicker() throws {
