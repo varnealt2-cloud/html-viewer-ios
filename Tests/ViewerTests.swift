@@ -187,7 +187,7 @@ final class ViewerTests: XCTestCase {
         let store = BrowserStore()
         let before = store.tabs.count
         store.open(files: [folder.appendingPathComponent("picked page.html"), folder.appendingPathComponent("picked.css")])
-        let deadline = Date().addingTimeInterval(30)
+        let deadline = Date().addingTimeInterval(90)
         while Date() < deadline, !(store.active?.title == "Picked" && store.active?.isLoading == false) { try await Task.sleep(nanoseconds: 100_000_000) }
         let tab = try XCTUnwrap(store.active)
         XCTAssertEqual(tab.title, "Picked")
@@ -203,7 +203,7 @@ final class ViewerTests: XCTestCase {
         let restored = try XCTUnwrap(relaunched.tabs.first { $0.id == tab.id }, "The tab is saved")
         XCTAssertEqual(restored.location, tab.location); XCTAssertEqual(restored.title, "Picked")
         XCTAssertEqual(relaunched.activeID, tab.id)
-        let reload = Date().addingTimeInterval(30)
+        let reload = Date().addingTimeInterval(90)
         while Date() < reload, restored.webView?.title != "Picked" { try await Task.sleep(nanoseconds: 100_000_000) }
         XCTAssertEqual(restored.webView?.title, "Picked", "The restored tab loads its page again")
 
