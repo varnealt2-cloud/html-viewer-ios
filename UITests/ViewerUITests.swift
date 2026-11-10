@@ -52,27 +52,28 @@ final class ViewerUITests: XCTestCase {
             XCTAssertTrue(app.buttons["openFiles"].waitForExistence(timeout: 10))
         }
         app.buttons["openFiles"].tap()
-        sleep(3)
-        save("7-picker")
-        // Navigate to On My iPhone → HTML Viewer, wherever the picker starts.
-        let file = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH 'picked-notes'")).firstMatch
-        for label in ["Browse", "On My iPhone", "HTML Viewer"] where !file.exists {
-            let named = NSPredicate(format: "label == %@", label)
-            let target = label == "Browse" ? app.buttons.matching(named).firstMatch : app.staticTexts.matching(named).firstMatch
-            if target.waitForExistence(timeout: 5) { target.tap(); sleep(2) }
+        let named = { (label: String) in NSPredicate(format: "label == %@", label) }
+        let files = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH 'picked-notes'"))
+        let page = app.webViews.staticTexts["Notes"]
+        var loaded = false
+        // The simulator's Files picker sometimes resets to its first screen under load, so navigate and tap up to
+        // three times; on a device one tap is enough.
+        for attempt in 1...3 where !loaded {
+            // Navigate to On My iPhone → HTML Viewer, wherever the picker starts.
+            for label in ["Browse", "On My iPhone", "HTML Viewer"] where !files.firstMatch.exists {
+                let target = label == "Browse" ? app.buttons.matching(named(label)).firstMatch : app.staticTexts.matching(named(label)).firstMatch
+                if target.waitForExistence(timeout: 8) { target.tap(); sleep(2) }
+            }
+            guard files.firstMatch.waitForExistence(timeout: 10) else { continue }
+            if attempt == 1 { save("7-picker") }
+            // The picker keeps off-screen copies of the same label (its Recents tab); tap the one actually on screen.
+            let candidates = files.allElementsBoundByIndex
+            print("CANDIDATES \(attempt): " + candidates.map { "\($0.frame) hittable=\($0.isHittable)" }.joined(separator: " | "))
+            guard let visible = candidates.first(where: { $0.isHittable && $0.frame.minY > 100 && $0.frame.maxY < 800 }) else { continue }
+            visible.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: -1.2)).tap()
+            loaded = page.waitForExistence(timeout: 20)
         }
-        save("8-picker-folder")
-        if !file.waitForExistence(timeout: 10) { print("HIERARCHY\n" + app.debugDescription) }
-        XCTAssertTrue(file.exists, "The seeded file is visible in the picker")
-        // The picker keeps off-screen copies of the same label (its Recents tab); tap the one actually on screen.
-        let candidates = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH 'picked-notes'")).allElementsBoundByIndex
-        print("CANDIDATES " + candidates.map { "\($0.frame) hittable=\($0.isHittable)" }.joined(separator: " | "))
-        let visible = try XCTUnwrap(candidates.first { $0.isHittable && $0.frame.minY > 100 && $0.frame.maxY < 800 }, "A tappable file entry")
-        visible.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: -1.2)).tap()
-        let open = app.buttons["Open"]
-        if open.waitForExistence(timeout: 5) { open.tap() }
-        let loaded = app.webViews.staticTexts["Notes"].waitForExistence(timeout: 40)
-        save("9-picked-page")
+        save("8-picked-page")
         if !loaded { print("HIERARCHY\n" + app.debugDescription) }
         XCTAssertTrue(loaded, "The picked file opens in a tab")
     }

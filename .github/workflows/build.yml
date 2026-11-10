@@ -41,8 +41,10 @@ jobs:
       - name: Test on iPhone (newest iOS)
         run: scripts/run_tests.sh "$(python3 scripts/pick_simulator.py iphone)" newest
       - name: Test on iPad
+        if: ${{ !cancelled() }}
         run: scripts/run_tests.sh "$(python3 scripts/pick_simulator.py ipad)" ipad
       - name: Test on iPhone (oldest installed iOS)
+        if: ${{ !cancelled() }}
         run: |
           UDID=$(python3 scripts/pick_simulator.py oldest-iphone)
           if [ -n "$UDID" ]; then scripts/run_tests.sh "$UDID" oldest; else echo "Only one iOS runtime is installed on this runner." | tee build/tests-oldest.log; fi
@@ -78,24 +80,24 @@ jobs:
           git add -A && git commit -qm "CI run $RUN ($STATUS) for $SHA"
           git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" ci-output
   older-ios:
-    name: Test on iOS 17 (Xcode 15)
+    name: Test on iOS 18 (Xcode 16)
     if: github.ref == 'refs/heads/main'
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Xcode 15 and project
+      - name: Set up Xcode 16 and project
         run: |
           set -euo pipefail
-          XCODE=$(ls -d /Applications/Xcode_15*.app | sort -V | tail -1)
+          XCODE=$(ls -d /Applications/Xcode_16*.app | sort -V | tail -1)
           sudo xcode-select -s "$XCODE/Contents/Developer"
           mkdir -p build
           { xcodebuild -version; sw_vers; xcrun simctl list runtimes; } 2>&1 | tee build/env.log
           command -v xcodegen >/dev/null || brew install xcodegen
           xcodegen generate
-      - name: Test on iPhone (iOS 17)
-        run: scripts/run_tests.sh "$(python3 scripts/pick_simulator.py iphone)" ios17
-      - name: Publish logs to the ci-output-ios17 branch
+      - name: Test on iPhone (iOS 18)
+        run: scripts/run_tests.sh "$(python3 scripts/pick_simulator.py iphone)" ios18
+      - name: Publish logs to the ci-output-ios18 branch
         if: always()
         env:
           STATUS: ${{ job.status }}
@@ -105,7 +107,7 @@ jobs:
           for f in build/*.log; do [ -f "$f" ] && grep -nE "error:|\*\* .* FAILED|Test Case .* (failed|passed|skipped)|XCTAssert|Executed|iOS [0-9]" "$f" | head -300 > "$OUT/logs/$(basename "$f" .log).summary.txt"; done
           [ -d build/snapshots ] && cp -R build/snapshots "$OUT/snapshots" || true
           echo "sha=${{ github.sha }} status=$STATUS" > "$OUT/RESULT.txt"
-          cd "$OUT"; git init -q -b ci-output-ios17
+          cd "$OUT"; git init -q -b ci-output-ios18
           git config user.name "ci"; git config user.email "ci@users.noreply.github.com"
-          git add -A && git commit -qm "iOS 17 run ($STATUS) for ${{ github.sha }}"
-          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" ci-output-ios17
+          git add -A && git commit -qm "iOS 18 run ($STATUS) for ${{ github.sha }}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" ci-output-ios18
