@@ -1,0 +1,19 @@
+720:Test Case '-[HTMLViewerTests.ViewerTests testOpenedFileBecomesATabAndIsRestored]' passed (18.968 seconds).
+723:2026-11-10 12:33:27.376938+0000 HTMLViewer[4188:18856] [ProcessSuspension] 0x11e00abd0 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'XPCConnectionTerminationWatchdog' for process with PID=4704, error: (null)
+725:2026-11-10 12:33:27.378188+0000 HTMLViewer[4188:18856] [ProcessSuspension] 0x11e00b800 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'WebProcess NearSuspended Assertion' for process with PID=4704, error: (null)
+728:2026-11-10 12:33:27.629021+0000 HTMLViewer[4188:18313] [ProcessSuspension] 0x11e007340 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'XPCConnectionTerminationWatchdog' for process with PID=4707, error: (null)
+729:Test Case '-[HTMLViewerTests.ViewerTests testPageLoadsStylesScriptsFetchImagesAndVideo]' passed (14.082 seconds).
+731:Test Case '-[HTMLViewerTests.ViewerTests testRangeParser]' passed (0.002 seconds).
+734:2026-11-10 12:33:41.404739+0000 HTMLViewer[4188:17839] [ProcessSuspension] 0x11e00b800 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'WebProcess NearSuspended Assertion' for process with PID=5064, error: (null)
+735:Test Case '-[HTMLViewerTests.ViewerTests testServerServesFilesRangesAndListings]' passed (0.251 seconds).
+737:Test Case '-[HTMLViewerTests.ViewerTests testStateRoundTrips]' passed (0.024 seconds).
+739:Test Case '-[HTMLViewerTests.ViewerTests testTypedAddresses]' passed (0.002 seconds).
+741:	 Executed 6 tests, with 0 failures (0 unexpected) in 33.328 (33.346) seconds
+743:	 Executed 6 tests, with 0 failures (0 unexpected) in 33.328 (33.347) seconds
+745:	 Executed 6 tests, with 0 failures (0 unexpected) in 33.328 (33.348) seconds
+777:Test Case '-[HTMLViewerUITests.ViewerUITests testExamplePageOpensAndRuns]' passed (31.722 seconds).
+783:Test Case '-[HTMLViewerUITests.ViewerUITests testPickingAFileInTheFilesPicker]' skipped (10.434 seconds).
+862:Test Case '-[HTMLViewerUITests.ViewerUITests testSampleTabsAndRestore]' passed (67.302 seconds).
+864:	 Executed 3 tests, with 1 test skipped and 0 failures (0 unexpected) in 109.458 (109.473) seconds
+866:	 Executed 3 tests, with 1 test skipped and 0 failures (0 unexpected) in 109.458 (109.477) seconds
+868:	 Executed 3 tests, with 1 test skipped and 0 failures (0 unexpected) in 109.458 (109.479) seconds

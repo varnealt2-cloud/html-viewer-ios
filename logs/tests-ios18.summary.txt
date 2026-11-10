@@ -1,0 +1,21 @@
+114:Test Case '-[HTMLViewerTests.ViewerTests testOpenedFileBecomesATabAndIsRestored]' passed (12.887 seconds).
+117:2026-11-10 12:40:23.763607+0000 HTMLViewer[8882:35312] [ProcessSuspension] 0x11d00bc00 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'WebProcess NearSuspended Assertion' for process with PID=9218, error: (null)
+120:2026-11-10 12:40:23.877030+0000 HTMLViewer[8882:35307] [ProcessSuspension] 0x11d00bf00 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'XPCConnectionTerminationWatchdog' for process with PID=9219, error: (null)
+121:Test Case '-[HTMLViewerTests.ViewerTests testPageLoadsStylesScriptsFetchImagesAndVideo]' passed (15.572 seconds).
+123:Test Case '-[HTMLViewerTests.ViewerTests testRangeParser]' passed (0.004 seconds).
+126:2026-11-10 12:40:39.354153+0000 HTMLViewer[8882:35411] [ProcessSuspension] 0x11d00ab50 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'XPCConnectionTerminationWatchdog' for process with PID=9617, error: (null)
+128:2026-11-10 12:40:39.565286+0000 HTMLViewer[8882:35411] [ProcessSuspension] 0x11d00ac10 - ProcessAssertion::acquireSync Failed to acquire RBS assertion 'WebProcess NearSuspended Assertion' for process with PID=9617, error: (null)
+129:Test Case '-[HTMLViewerTests.ViewerTests testServerServesFilesRangesAndListings]' passed (0.490 seconds).
+131:Test Case '-[HTMLViewerTests.ViewerTests testStateRoundTrips]' passed (0.028 seconds).
+133:Test Case '-[HTMLViewerTests.ViewerTests testTypedAddresses]' passed (0.002 seconds).
+135:	 Executed 6 tests, with 0 failures (0 unexpected) in 28.982 (28.985) seconds
+137:	 Executed 6 tests, with 0 failures (0 unexpected) in 28.982 (28.986) seconds
+139:	 Executed 6 tests, with 0 failures (0 unexpected) in 28.982 (28.987) seconds
+169:Test Case '-[HTMLViewerUITests.ViewerUITests testExamplePageOpensAndRuns]' passed (25.552 seconds).
+726:XCTExpectFailure: matcher accepted Assertion Failure at ViewerUITests.swift:83: XCTAssertTrue failed - The picked file opens in a tab
+727:ViewerUITests.swift:83: Expected failure in -[HTMLViewerUITests.ViewerUITests testPickingAFileInTheFilesPicker]: XCTAssertTrue failed - The picked file opens in a tabReason: (The simulator's Files picker could not be driven to hand over the file)
+729:Test Case '-[HTMLViewerUITests.ViewerUITests testPickingAFileInTheFilesPicker]' passed (142.602 seconds).
+811:Test Case '-[HTMLViewerUITests.ViewerUITests testSampleTabsAndRestore]' passed (29.528 seconds).
+813:	 Executed 3 tests, with 0 failures (0 unexpected) in 197.683 (197.692) seconds
+815:	 Executed 3 tests, with 0 failures (0 unexpected) in 197.683 (197.693) seconds
+817:	 Executed 3 tests, with 0 failures (0 unexpected) in 197.683 (197.695) seconds
