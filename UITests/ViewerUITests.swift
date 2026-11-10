@@ -35,7 +35,8 @@ final class ViewerUITests: XCTestCase {
         // The page's own script and storage work: add a note and see it listed.
         let field = app.webViews.textFields.firstMatch
         if field.waitForExistence(timeout: 5) {
-            field.tap(); field.typeText("milk\n")
+            field.tap(); field.typeText("milk")
+            app.webViews.buttons["Add"].tap()
             XCTAssertTrue(app.webViews.staticTexts["milk"].waitForExistence(timeout: 10), "The page's script ran and saved the note")
         }
     }
