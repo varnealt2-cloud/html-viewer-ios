@@ -35,7 +35,8 @@ final class ViewerUITests: XCTestCase {
         // The page's own script and storage work: its Add button creates a note and lists it.
         app.webViews.buttons["Add"].tap()
         let note = app.webViews.staticTexts.matching(NSPredicate(format: "label BEGINSWITH 'Note '")).firstMatch
-        let added = note.waitForExistence(timeout: 15)
+        var added = note.waitForExistence(timeout: 8)
+        if !added { app.webViews.buttons["Add"].tap(); added = note.waitForExistence(timeout: 15) }   // a first tap can land before the page is interactive
         save("6b-example-after-add")
         if !added { print("PAGE TEXTS: " + app.webViews.staticTexts.allElementsBoundByIndex.map(\.label).joined(separator: " | ") + "\nBUTTONS: " + app.webViews.buttons.allElementsBoundByIndex.map { "\($0.label) \($0.frame)" }.joined(separator: " | ")) }
         XCTAssertTrue(added, "The page's script ran and saved a note")
