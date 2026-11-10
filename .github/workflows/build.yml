@@ -1,0 +1,111 @@
+name: Build and test
+# Every push to main builds the unsigned IPA and runs the tests on iPhone and iPad simulators.
+# Pushing a tag like v1.2.0 also publishes the IPA as a GitHub release.
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+    paths-ignore: ['**.md', 'docs/**', 'LICENSE']
+permissions:
+  contents: write
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    name: Build, test (iPhone + iPad), release
+    runs-on: macos-26
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Xcode and project
+        run: |
+          set -euo pipefail
+          XCODE=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1)
+          [ -n "$XCODE" ] || XCODE=$(ls -d /Applications/Xcode*.app | sort -V | tail -1)
+          sudo xcode-select -s "$XCODE/Contents/Developer"
+          mkdir -p build
+          { xcodebuild -version; sw_vers; xcrun simctl list runtimes; } 2>&1 | tee build/env.log
+          command -v xcodegen >/dev/null || brew install xcodegen
+          xcodegen generate 2>&1 | tee build/xcodegen.log
+      - name: Build unsigned app (Release archive, iPhone + iPad)
+        run: |
+          set -o pipefail
+          xcodebuild archive -project HTMLViewer.xcodeproj -scheme HTMLViewer -configuration Release \
+            -destination 'generic/platform=iOS' -archivePath build/HTMLViewer.xcarchive \
+            -derivedDataPath build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" 2>&1 | tee build/archive.log | grep -E "error|\*\* " || true
+          test -d build/HTMLViewer.xcarchive/Products/Applications/HTMLViewer.app
+      - name: Package IPA
+        run: python3 scripts/package_ipa.py 2>&1 | tee build/package.log
+      - name: Test on iPhone (newest iOS)
+        run: scripts/run_tests.sh "$(python3 scripts/pick_simulator.py iphone)" newest
+      - name: Test on iPad
+        run: scripts/run_tests.sh "$(python3 scripts/pick_simulator.py ipad)" ipad
+      - name: Test on iPhone (oldest installed iOS)
+        run: |
+          UDID=$(python3 scripts/pick_simulator.py oldest-iphone)
+          if [ -n "$UDID" ]; then scripts/run_tests.sh "$UDID" oldest; else echo "Only one iOS runtime is installed on this runner." | tee build/tests-oldest.log; fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: HTML-Viewer-unsigned-ipa
+          path: build/Download/HTML-Viewer.ipa
+          if-no-files-found: error
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" build/Download/HTML-Viewer.ipa \
+            --title "HTML Viewer ${GITHUB_REF_NAME#v}" --notes-file docs/RELEASE_NOTES.md --verify-tag
+      - name: Publish logs and screenshots to the ci-output branch
+        if: always()
+        env:
+          RUN: ${{ github.run_number }}
+          SHA: ${{ github.sha }}
+          STATUS: ${{ job.status }}
+        run: |
+          set -u
+          OUT=$RUNNER_TEMP/out; rm -rf "$OUT"; mkdir -p "$OUT/logs"
+          for f in build/*.log; do [ -f "$f" ] && tail -c 300000 "$f" > "$OUT/logs/$(basename "$f")"; done
+          for f in build/*.log; do [ -f "$f" ] && grep -nE "error:|\*\* .* FAILED|Test Case .* (failed|passed|skipped)|XCTAssert|Executed|iOS [0-9]" "$f" | head -300 > "$OUT/logs/$(basename "$f" .log).summary.txt"; done
+          cp build/Download/* "$OUT/" 2>/dev/null || true
+          [ -d build/snapshots ] && cp -R build/snapshots "$OUT/snapshots" || true
+          echo "run=$RUN sha=$SHA status=$STATUS ref=${{ github.ref }}" > "$OUT/RESULT.txt"
+          cd "$OUT"
+          git init -q -b ci-output
+          git config user.name "ci"; git config user.email "ci@users.noreply.github.com"
+          git add -A && git commit -qm "CI run $RUN ($STATUS) for $SHA"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" ci-output
+  older-ios:
+    name: Test on iOS 17 (Xcode 15)
+    if: github.ref == 'refs/heads/main'
+    runs-on: macos-14
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Xcode 15 and project
+        run: |
+          set -euo pipefail
+          XCODE=$(ls -d /Applications/Xcode_15*.app | sort -V | tail -1)
+          sudo xcode-select -s "$XCODE/Contents/Developer"
+          mkdir -p build
+          { xcodebuild -version; sw_vers; xcrun simctl list runtimes; } 2>&1 | tee build/env.log
+          command -v xcodegen >/dev/null || brew install xcodegen
+          xcodegen generate
+      - name: Test on iPhone (iOS 17)
+        run: scripts/run_tests.sh "$(python3 scripts/pick_simulator.py iphone)" ios17
+      - name: Publish logs to the ci-output-ios17 branch
+        if: always()
+        env:
+          STATUS: ${{ job.status }}
+        run: |
+          OUT=$RUNNER_TEMP/out; rm -rf "$OUT"; mkdir -p "$OUT/logs"
+          for f in build/*.log; do [ -f "$f" ] && tail -c 300000 "$f" > "$OUT/logs/$(basename "$f")"; done
+          for f in build/*.log; do [ -f "$f" ] && grep -nE "error:|\*\* .* FAILED|Test Case .* (failed|passed|skipped)|XCTAssert|Executed|iOS [0-9]" "$f" | head -300 > "$OUT/logs/$(basename "$f" .log).summary.txt"; done
+          [ -d build/snapshots ] && cp -R build/snapshots "$OUT/snapshots" || true
+          echo "sha=${{ github.sha }} status=$STATUS" > "$OUT/RESULT.txt"
+          cd "$OUT"; git init -q -b ci-output-ios17
+          git config user.name "ci"; git config user.email "ci@users.noreply.github.com"
+          git add -A && git commit -qm "iOS 17 run ($STATUS) for ${{ github.sha }}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" ci-output-ios17

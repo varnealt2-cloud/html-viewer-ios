@@ -1,0 +1,108 @@
+name: HTMLViewer
+options:
+  bundleIdPrefix: app.htmlviewer
+  deploymentTarget:
+    iOS: '15.0'
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: '5.0'
+    SWIFT_STRICT_CONCURRENCY: minimal
+    IPHONEOS_DEPLOYMENT_TARGET: '15.0'
+    TARGETED_DEVICE_FAMILY: '1,2'
+    ENABLE_USER_SCRIPT_SANDBOXING: 'NO'
+    CODE_SIGNING_ALLOWED: 'NO'
+    MARKETING_VERSION: 1.1.0
+    CURRENT_PROJECT_VERSION: "2"
+targets:
+  HTMLViewer:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+        excludes:
+          - Info.plist
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: HTML Viewer
+        CFBundleShortVersionString: "1.1.0"
+        CFBundleVersion: "3"
+        LSRequiresIPhoneOS: true
+        UILaunchScreen: {}
+        UIApplicationSupportsIndirectInputEvents: true
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UIFileSharingEnabled: true
+        LSSupportsOpeningDocumentsInPlace: true
+        ITSAppUsesNonExemptEncryption: false
+        UIBackgroundModes:
+          - audio
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoadsInWebContent: true
+          NSAllowsLocalNetworking: true
+        NSCameraUsageDescription: A page you opened is asking to use the camera.
+        NSMicrophoneUsageDescription: A page you opened is asking to use the microphone.
+        NSLocationWhenInUseUsageDescription: A page you opened is asking for your location.
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: Web page
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes:
+              - public.html
+              - public.xhtml
+              - public.svg-image
+              - public.folder
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.htmlviewer.ios
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        SUPPORTS_MACCATALYST: 'NO'
+        SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: 'NO'
+  HTMLViewerTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: Tests
+    dependencies:
+      - target: HTMLViewer
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.htmlviewer.tests
+        GENERATE_INFOPLIST_FILE: 'YES'
+  HTMLViewerUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: UITests
+    dependencies:
+      - target: HTMLViewer
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.htmlviewer.uitests
+        GENERATE_INFOPLIST_FILE: 'YES'
+        TEST_TARGET_NAME: HTMLViewer
+schemes:
+  HTMLViewer:
+    build:
+      targets:
+        HTMLViewer: all
+        HTMLViewerTests: [test]
+        HTMLViewerUITests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - HTMLViewerTests
+        - HTMLViewerUITests
+    archive:
+      config: Release

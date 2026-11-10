@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Notes</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; font: 17px/1.45 -apple-system, system-ui, sans-serif; background: #0b0b0f; color: #f4f4f6; }
+  main { max-width: 34rem; margin: 0 auto; padding: 1.5rem 1.1rem 4rem; }
+  h1 { font-size: 2rem; margin: 0.5rem 0 1rem; }
+  form { display: flex; gap: 0.5rem; }
+  input { flex: 1; font: inherit; padding: 0.7rem 0.9rem; border-radius: 12px; border: 1px solid #2c2c36; background: #15151c; color: inherit; }
+  button { font: inherit; font-weight: 600; padding: 0.7rem 1rem; border: 0; border-radius: 12px; background: #e11d48; color: #fff; }
+  ul { list-style: none; padding: 0; margin: 1.25rem 0 0; }
+  li { padding: 0.8rem 0.2rem; border-bottom: 1px solid #23232c; }
+  p { color: #9a9aa6; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Notes</h1>
+  <form id="form"><input id="text" aria-label="New note" placeholder="New note" autocomplete="off"><button>Add</button></form>
+  <ul id="list"></ul>
+  <p id="count"></p>
+</main>
+<script>
+  // A self-contained single-file app: everything inline, data kept in localStorage.
+  const KEY = "notes-test-fixture";
+  const list = document.getElementById("list"), count = document.getElementById("count");
+  let notes = [];
+  try { notes = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) { notes = []; }
+  function render() {
+    list.textContent = "";
+    for (const note of notes) { const li = document.createElement("li"); li.textContent = note; list.appendChild(li); }
+    count.textContent = notes.length === 1 ? "1 note" : notes.length + " notes";
+  }
+  document.getElementById("form").addEventListener("submit", event => {
+    event.preventDefault();
+    const input = document.getElementById("text"), value = input.value.trim();
+    if (!value) return;
+    notes.push(value); input.value = "";
+    try { localStorage.setItem(KEY, JSON.stringify(notes)); } catch (e) {}
+    render();
+  });
+  render();
+</script>
+</body>
+</html>
