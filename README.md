@@ -167,7 +167,17 @@ website. Nothing is uploaded.
 Every change is built and tested automatically on GitHub's Mac runners (see the
 [Actions tab](https://github.com/varnealt2-cloud/html-viewer-ios/actions)):
 
-TESTED_PLACEHOLDER
+- **iPhone, iOS 26** (iPhone 17 Pro Max simulator) and **iPad, iPadOS 26** (iPad Pro 13-inch simulator), built
+  with Xcode 26.
+- **iPhone, iOS 18** and **iPad, iPadOS 18** simulators, built with Xcode 16.
+
+On each of them the tests start the real app and check that a multi-file page loads with its stylesheet, image,
+script module, `fetch()` and saved data; that a video loads and seeks; that a single-file web app opens and
+runs; that a link opens a second tab; and that the tabs come back after the app is quit and reopened.
+
+iOS 15, 16 and 17 are supported by the code (older-system paths are compiled in and checked by the compiler)
+but GitHub's runners no longer offer those simulators, so they are not tested automatically. If something
+misbehaves on an older system, please open an issue.
 
 The first version was also installed with Signulous and used on an iPhone 17 Pro Max.
 

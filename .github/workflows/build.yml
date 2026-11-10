@@ -43,11 +43,6 @@ jobs:
       - name: Test on iPad
         if: ${{ !cancelled() }}
         run: scripts/run_tests.sh "$(python3 scripts/pick_simulator.py ipad)" ipad
-      - name: Test on iPhone (oldest installed iOS)
-        if: ${{ !cancelled() }}
-        run: |
-          UDID=$(python3 scripts/pick_simulator.py oldest-iphone)
-          if [ -n "$UDID" ]; then scripts/run_tests.sh "$UDID" oldest; else echo "Only one iOS runtime is installed on this runner." | tee build/tests-oldest.log; fi
       - uses: actions/upload-artifact@v4
         with:
           name: HTML-Viewer-unsigned-ipa
@@ -80,7 +75,7 @@ jobs:
           git add -A && git commit -qm "CI run $RUN ($STATUS) for $SHA"
           git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" ci-output
   older-ios:
-    name: Test on iOS 18 (Xcode 16)
+    name: Test on iOS 18 and iPadOS 18 (Xcode 16)
     if: github.ref == 'refs/heads/main'
     runs-on: macos-15
     timeout-minutes: 45
@@ -95,8 +90,11 @@ jobs:
           { xcodebuild -version; sw_vers; xcrun simctl list runtimes; } 2>&1 | tee build/env.log
           command -v xcodegen >/dev/null || brew install xcodegen
           xcodegen generate
+      - name: Test on iPad (iPadOS 18)
+        run: scripts/run_tests.sh "$(python3 scripts/pick_simulator.py ipad 18)" ipados18
       - name: Test on iPhone (iOS 18)
-        run: scripts/run_tests.sh "$(python3 scripts/pick_simulator.py iphone)" ios18
+        if: ${{ !cancelled() }}
+        run: scripts/run_tests.sh "$(python3 scripts/pick_simulator.py iphone 18)" ios18
       - name: Publish logs to the ci-output-ios18 branch
         if: always()
         env:
