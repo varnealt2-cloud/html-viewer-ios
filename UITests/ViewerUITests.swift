@@ -35,7 +35,10 @@ final class ViewerUITests: XCTestCase {
         // The page's own script and storage work: its Add button creates a note and lists it.
         app.webViews.buttons["Add"].tap()
         let note = app.webViews.staticTexts.matching(NSPredicate(format: "label BEGINSWITH 'Note '")).firstMatch
-        XCTAssertTrue(note.waitForExistence(timeout: 15), "The page's script ran and saved a note")
+        let added = note.waitForExistence(timeout: 15)
+        save("6b-example-after-add")
+        if !added { print("PAGE TEXTS: " + app.webViews.staticTexts.allElementsBoundByIndex.map(\.label).joined(separator: " | ") + "\nBUTTONS: " + app.webViews.buttons.allElementsBoundByIndex.map { "\($0.label) \($0.frame)" }.joined(separator: " | ")) }
+        XCTAssertTrue(added, "The page's script ran and saved a note")
     }
 
     /// The same file chosen by hand in the system Files picker.
