@@ -39,8 +39,8 @@ No account, no ads, no tracking. The app makes no network connections of its own
 
 ## Download
 
-**[Download HTML-Viewer.ipa](https://github.com/varnealt2-cloud/html-viewer-ios/releases/latest/download/HTML-Viewer.ipa)**
-(latest release, about 300 KB).
+**[Download HTML-Viewer.ipa](https://github.com/varnealt2-cloud/html-viewer-ios/raw/main/download/HTML-Viewer.ipa)**
+(version 1.1.0, about 300 KB). It is the exact file produced by the automated build after all tests passed.
 
 ## Install
 
